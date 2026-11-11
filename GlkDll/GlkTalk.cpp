@@ -24,7 +24,8 @@ typedef enum SPEVENTENUM {} SPEVENTENUM;
 typedef enum SPDATAKEYLOCATION {} SPDATAKEYLOCATION;
 
 typedef enum SPEAKFLAGS {
-  SPF_ASYNC = (1L<<0)
+  SPF_ASYNC = (1L<<0),
+  SPF_PURGEBEFORESPEAK = (1L<<1)
 } SPEAKFLAGS;
 
 MIDL_INTERFACE("5EFF4AEF-8487-11D2-961C-00C04F8EE628")
@@ -306,7 +307,7 @@ void TextToSpeech::Update(LPCSTR Voice, int Speed)
 }
 
 // Speak some text
-void TextToSpeech::Speak(LPCSTR speech)
+void TextToSpeech::Speak(LPCSTR speech, bool Purge)
 {
   if (m_Voice != NULL)
   {
@@ -316,15 +317,25 @@ void TextToSpeech::Speak(LPCSTR speech)
     for (int i = 0; i <= length; i++)
       unicode[i] = speech[i];
 
-    m_Voice->Speak(unicode,SPF_ASYNC,NULL);
+    DWORD flags = SPF_ASYNC;
+    if (Purge)
+      flags |= SPF_PURGEBEFORESPEAK;
+
+    m_Voice->Speak(unicode,flags,NULL);
 
     // Free the Unicode buffer
     delete[] unicode;
   }
 }
 
-void TextToSpeech::Speak(LPCWSTR speech)
+void TextToSpeech::Speak(LPCWSTR speech, bool Purge)
 {
   if (m_Voice != NULL)
-    m_Voice->Speak(speech,SPF_ASYNC,NULL);
+  {
+    DWORD flags = SPF_ASYNC;
+    if (Purge)
+      flags |= SPF_PURGEBEFORESPEAK;
+
+    m_Voice->Speak(speech,flags,NULL);
+  }
 }

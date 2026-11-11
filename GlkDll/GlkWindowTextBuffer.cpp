@@ -318,12 +318,12 @@ void CWinGlkWndTextBuffer::InputChar(unsigned long InputChar)
         if (m_bInputUnicode)
         {
           CStringW strInput = GetUniLineBuffer();
-          pApp->Speak(strInput);
+          pApp->Speak(strInput,true);
         }
         else
         {
           CString strInput((LPCTSTR)m_pLineBuffer,m_iLineEnd);
-          pApp->Speak(strInput);
+          pApp->Speak(strInput,true);
         }
       }
     }
@@ -2605,7 +2605,7 @@ void CWinGlkWndTextBuffer::CParagraph::Speak(void)
   *textptr = L'\0';
 
   // Send the text to the speech engine
-  pApp->Speak(text);
+  pApp->Speak(text,false);
   delete[] text;
 }
 

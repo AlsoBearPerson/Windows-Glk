@@ -143,8 +143,8 @@ public:
   CWinGlkResource* LoadResource(int iNumber);
 
   bool CanSpeakChar(wchar_t c);
-  void Speak(LPCSTR pszText);
-  void Speak(LPCWSTR pszText);
+  void Speak(LPCSTR pszText, bool bPurge);
+  void Speak(LPCWSTR pszText, bool bPurge);
   void InitSoundEngine(void);
 
   struct GameInfo

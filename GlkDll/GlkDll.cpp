@@ -1291,7 +1291,7 @@ bool CGlkApp::CanSpeakChar(wchar_t c)
 }
 
 // Speak the given text
-void CGlkApp::Speak(LPCSTR pszText)
+void CGlkApp::Speak(LPCSTR pszText, bool bPurge)
 {
   if (*pszText == '\0')
     return;
@@ -1303,11 +1303,11 @@ void CGlkApp::Speak(LPCSTR pszText)
 
     // Send the text to the speech engine
     CWinGlkMainWnd* pMainWnd = (CWinGlkMainWnd*)AfxGetMainWnd();
-    TextToSpeech::GetSpeechEngine().Speak(pszText);
+    TextToSpeech::GetSpeechEngine().Speak(pszText,bPurge);
   }
 }
 
-void CGlkApp::Speak(LPCWSTR pszText)
+void CGlkApp::Speak(LPCWSTR pszText, bool bPurge)
 {
   if (*pszText == L'\0')
     return;
@@ -1318,7 +1318,7 @@ void CGlkApp::Speak(LPCWSTR pszText)
     TextToSpeech::GetSpeechEngine().Initialize(m_strVoice,m_iSpeakRate);
 
     // Send the text to the speech engine
-    TextToSpeech::GetSpeechEngine().Speak(pszText);
+    TextToSpeech::GetSpeechEngine().Speak(pszText,bPurge);
   }
 }
 

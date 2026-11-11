@@ -944,12 +944,15 @@ void CWinGlkMainWnd::OnOptions()
 
     pApp->Set_iFiction((CGlkApp::Show_iFiction)GeneralPage.m_iFiction);
 
+    bool bWasSpeaking = pApp->GetCanSpeak();
     pApp->SetCanSpeak(SpeechPage.m_bSpeak ? true : false);
     bool bVoiceChanged = (SpeechPage.m_strVoice != pApp->GetSpeechVoice());
     bool bRateChanged = (SpeechPage.m_iRate != pApp->GetSpeechRate());
     pApp->SetSpeechVoice(SpeechPage.m_strVoice);
     pApp->SetSpeechRate(SpeechPage.m_iRate);
-    if (bVoiceChanged || bRateChanged)
+    if (bWasSpeaking && !pApp->GetCanSpeak())
+      TextToSpeech::GetSpeechEngine().Destroy();
+    else if (bVoiceChanged || bRateChanged)
       TextToSpeech::GetSpeechEngine().Update(pApp->GetSpeechVoice(),pApp->GetSpeechRate());
 
     if (bFontChanged)

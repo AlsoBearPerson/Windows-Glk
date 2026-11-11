@@ -21,8 +21,8 @@ public:
   void Initialize(LPCSTR Voice, int Speed);
   void Destroy(void);
   void Update(LPCSTR Voice, int Speed);
-  void Speak(LPCSTR speech);
-  void Speak(LPCWSTR speech);
+  void Speak(LPCSTR speech, bool Purge);
+  void Speak(LPCWSTR speech, bool Purge);
 
 protected:
   TextToSpeech();
