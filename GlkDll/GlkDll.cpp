@@ -1058,6 +1058,16 @@ CWinGlkGraphic* CGlkApp::LoadGraphic(int iNumber, BOOL bLoad, BOOL bApplyAlpha)
   UINT iLength = 0;
   bool bFreeData = false;
 
+  // Cache only holds alpha-applied resources,
+  // so avoid it for load=true alpha=false calls.
+  // All other calls ought to be fine.
+  if (!bLoad || bApplyAlpha)
+  {
+    CWinGlkGraphic* pCached = m_GraphicCache.GetGraphic(iNumber, bLoad);
+    if (pCached)
+      return pCached;
+  }
+
   // First try to load the graphic from the Blorb resource map
   if (m_pBlorbMap)
   {
@@ -1104,6 +1114,10 @@ CWinGlkGraphic* CGlkApp::LoadGraphic(int iNumber, BOOL bLoad, BOOL bApplyAlpha)
     if (pLoader)
       pGraphic = pLoader->LoadGraphic(pData,iLength,bLoad,bApplyAlpha);
   }
+
+  // If this was a successful full load, populate the cache.
+  if (bLoad && bApplyAlpha && pGraphic)
+    m_GraphicCache.PutGraphic(iNumber, pGraphic);
 
   if (bFreeData)
     delete[] pData;

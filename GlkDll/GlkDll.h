@@ -24,6 +24,7 @@ extern void (*UnregisterArrFn)(void *array, glui32 len, char *typecode, gidispat
 }
 
 #include "GlkGraphic.h"
+#include "GlkGraphicCache.h"
 #include "GlkSound.h"
 #include "GlkStream.h"
 #include "Resource.h"
@@ -239,6 +240,7 @@ protected:
 
   strid_t m_BlorbFile;
   giblorb_map_t* m_pBlorbMap;
+  CWinGlkGraphicCache m_GraphicCache;
 
   Show_iFiction m_iFiction;
   GameInfo m_GameInfo;
